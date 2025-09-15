@@ -1,34 +1,45 @@
-name : Signup API CI
+name: Signup API CI
 
-on : 
- push: 
-  branches: [main]  
-  pull_request: 
-  branches: [main]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-    
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Run Lint
-      run: npm run lint
-    
-    - name: Run Tests
-      run: npm test 
-      env: 
-      MONGO_URL: mongodb://localhost:27017/signupDB_test
+    services:
+      mongo:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-    - name: security audit
-      run: npm audit --audit-level=high
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run Tests
+        run: npm test
+        env:
+          MONGODB_URI: mongodb://localhost:27017/signupDB_test
+
+      - name: Security audit
+        run: npm audit --audit-level=high
