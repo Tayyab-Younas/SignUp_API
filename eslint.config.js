@@ -5,8 +5,10 @@ export default [
   js.configs.recommended,
   {
     languageOptions: {
-      process: "readonly",
-      console: "readonly",
+      globals: {
+        process: "readonly",
+        console: "readonly",
+      },
     },
 
     rules: {
