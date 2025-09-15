@@ -12,7 +12,13 @@ export default [
     },
 
     rules: {
-      camelcase: ["error", { properties: "always" , ignore: ["cloud_name", "api_key", "api_secret", "allowed_formats"]  }], // ✅ enforce camelCase
+      camelcase: [
+        "error",
+        {
+          properties: "always",
+          allow: ["cloud_name", "api_key", "api_secret", "allowed_formats"],
+        },
+      ],
       "no-unused-vars": "warn",
       semi: ["error", "always"],
     },
