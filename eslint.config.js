@@ -4,10 +4,15 @@ import js from "@eslint/js";
 export default [
   js.configs.recommended,
   {
+    languageOptions: {
+      process: "readonly",
+      console: "readonly",
+    },
+
     rules: {
-      "camelcase": ["error", { properties: "always" }], // ✅ enforce camelCase
+      camelcase: ["error", { properties: "always" }], // ✅ enforce camelCase
       "no-unused-vars": "warn",
-      "semi": ["error", "always"],
+      semi: ["error", "always"],
     },
   },
 ];
